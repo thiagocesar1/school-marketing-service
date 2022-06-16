@@ -1,0 +1,10 @@
+server:
+  port: 5000
+spring:
+  application:
+    name: marketing-service
+  data:
+    mongodb:
+      user: adm
+      password: adm
+      uri: mongodb://localhost:27017/mkt-db?authSource=adm
