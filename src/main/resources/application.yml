@@ -1,10 +1,13 @@
 server:
   port: 5000
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
 spring:
   application:
     name: marketing-service
   data:
     mongodb:
-      user: adm
-      password: adm
-      uri: mongodb://localhost:27017/mkt-db?authSource=adm
+      uri: mongodb://admin:admin@localhost:27017/?authSource=admin
+      database: mkt-db
