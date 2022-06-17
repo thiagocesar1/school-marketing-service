@@ -1,0 +1,33 @@
+package br.com.school.marketingservice.service.impl;
+
+import br.com.school.marketingservice.controller.LeadController;
+import br.com.school.marketingservice.domain.entity.Lead;
+import br.com.school.marketingservice.domain.repository.LeadRepository;
+import br.com.school.marketingservice.service.LeadService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+
+@Service
+public class LeadServiceImpl implements LeadService {
+
+    @Autowired
+    private LeadRepository leadRepository;
+
+    private final Logger logger = LoggerFactory.getLogger(LeadController.class);
+
+
+    @Override
+    @Transactional
+    public void save(Lead lead) {
+        Optional<Lead> leadExists = leadRepository.findByEmail(lead.getEmail());
+        if(leadExists.isEmpty()){
+           logger.info("Saving new lead");
+           leadRepository.save(lead);
+        }
+    }
+}

@@ -1,34 +1,20 @@
 package br.com.school.marketingservice.controller;
 
 import br.com.school.marketingservice.domain.entity.Lead;
-import br.com.school.marketingservice.domain.repository.LeadRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import br.com.school.marketingservice.service.LeadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/lead")
+@RequestMapping("/lead")
 public class LeadController {
-    private Logger logger = LoggerFactory.getLogger(LeadController.class);
-
     @Autowired
-    private LeadRepository leadRepository;
+    private LeadService leadService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Lead createLead(){
-        Lead lead = Lead.builder()
-                .name("Test")
-                .email("Test")
-                .build();
-
-        leadRepository.insert(lead);
-
-        return lead;
+    public void save(@RequestBody Lead lead){
+        leadService.save(lead);
     }
 }
