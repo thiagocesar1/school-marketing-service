@@ -4,4 +4,5 @@ import br.com.school.marketingservice.domain.entity.Lead;
 
 public interface LeadService {
     void save(Lead lead);
+    Lead getLead(String id);
 }

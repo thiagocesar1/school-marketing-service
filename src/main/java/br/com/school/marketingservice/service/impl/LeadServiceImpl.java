@@ -7,8 +7,10 @@ import br.com.school.marketingservice.service.LeadService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -29,5 +31,11 @@ public class LeadServiceImpl implements LeadService {
            logger.info("Saving new lead");
            leadRepository.save(lead);
         }
+    }
+
+    @Override
+    public Lead getLead(String id) {
+        return leadRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Lead not found!"));
     }
 }

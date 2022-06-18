@@ -17,4 +17,10 @@ public class LeadController {
     public void save(@RequestBody Lead lead){
         leadService.save(lead);
     }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Lead getLead(@PathVariable String id){
+        return leadService.getLead(id);
+    }
 }
