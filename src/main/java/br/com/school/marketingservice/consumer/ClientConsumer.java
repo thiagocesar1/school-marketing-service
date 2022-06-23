@@ -16,7 +16,7 @@ import java.util.Optional;
 @Service
 public class ClientConsumer {
     private static final Logger logger = LoggerFactory.getLogger(ClientConsumer.class);
-    private static final String topic = "clients";
+    private static final String topic = "client_added";
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -24,11 +24,13 @@ public class ClientConsumer {
     @Autowired
     private LeadRepository leadRepository;
 
-    @KafkaListener(topics = "clients")
+    @KafkaListener(topics = topic)
     public void send(String client) throws JsonProcessingException {
         ClientDTO clientDTO = objectMapper.readValue(client, ClientDTO.class);
         Optional<Lead> leadExists = leadRepository.findById(clientDTO.getMarketingLeadId());
-        logger.info("Lendo topico, Lead Existe -> "+leadExists.isPresent());
-        leadExists.ifPresent(lead -> lead.setStatus(LeadStatus.CONVERTED));
+        leadExists.ifPresent((lead) -> {
+            lead.convert();
+            leadRepository.save(lead);
+        });
     }
 }

@@ -24,4 +24,12 @@ public class Lead {
 
     @Field
     private LeadStatus status;
+
+    public void convert(){
+        this.status = LeadStatus.CONVERTED;
+    }
+
+    public void cancel(){
+        this.status = LeadStatus.CANCELED;
+    }
 }
