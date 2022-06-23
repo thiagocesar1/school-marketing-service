@@ -2,6 +2,7 @@ package br.com.school.marketingservice.service.impl;
 
 import br.com.school.marketingservice.controller.LeadController;
 import br.com.school.marketingservice.domain.entity.Lead;
+import br.com.school.marketingservice.domain.enums.LeadStatus;
 import br.com.school.marketingservice.domain.repository.LeadRepository;
 import br.com.school.marketingservice.service.LeadService;
 import org.slf4j.Logger;
@@ -29,6 +30,7 @@ public class LeadServiceImpl implements LeadService {
         Optional<Lead> leadExists = leadRepository.findByEmail(lead.getEmail());
         if(leadExists.isEmpty()){
            logger.info("Saving new lead");
+           lead.setStatus(LeadStatus.INTERESTED);
            leadRepository.save(lead);
         }
     }

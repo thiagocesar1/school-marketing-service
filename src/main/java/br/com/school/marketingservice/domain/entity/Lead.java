@@ -1,5 +1,6 @@
 package br.com.school.marketingservice.domain.entity;
 
+import br.com.school.marketingservice.domain.enums.LeadStatus;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -20,4 +21,7 @@ public class Lead {
 
     @Field
     private String email;
+
+    @Field
+    private LeadStatus status;
 }
