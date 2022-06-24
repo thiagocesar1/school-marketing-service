@@ -1,8 +1,8 @@
-package br.com.school.marketingservice.consumer;
+package br.com.school.marketingservice.kafka.consumer;
 
 import br.com.school.marketingservice.domain.entity.Lead;
-import br.com.school.marketingservice.domain.enums.LeadStatus;
 import br.com.school.marketingservice.domain.repository.LeadRepository;
+import br.com.school.marketingservice.kafka.handler.ClientLeadHandler;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -19,18 +19,19 @@ public class ClientConsumer {
     private static final String topic = "client_added";
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private ClientLeadHandler clientLeadHandler;
 
     @Autowired
-    private LeadRepository leadRepository;
+    private ObjectMapper objectMapper;
 
     @KafkaListener(topics = topic)
-    public void send(String client) throws JsonProcessingException {
-        ClientDTO clientDTO = objectMapper.readValue(client, ClientDTO.class);
-        Optional<Lead> leadExists = leadRepository.findById(clientDTO.getMarketingLeadId());
-        leadExists.ifPresent((lead) -> {
-            lead.convert();
-            leadRepository.save(lead);
-        });
+    public void send(String clientLead) throws JsonProcessingException {
+        try {
+            ClientLeadDTO clientLeadDTO = objectMapper.readValue(clientLead, ClientLeadDTO.class);
+            logger.info("Mensagem do client {} recebida.", clientLeadDTO.getMarketingLeadId());
+            clientLeadHandler.handleClientLeadMessage(clientLeadDTO);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

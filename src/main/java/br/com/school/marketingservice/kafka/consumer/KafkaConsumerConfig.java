@@ -1,4 +1,4 @@
-package br.com.school.marketingservice.consumer;
+package br.com.school.marketingservice.kafka.consumer;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -28,7 +28,7 @@ public class KafkaConsumerConfig {
                 kafkaProperties.getBootstrapServers());
         props.put(
                 ConsumerConfig.GROUP_ID_CONFIG,
-                "group1");
+                "financial");
         props.put(
                 ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
                 StringDeserializer.class);
