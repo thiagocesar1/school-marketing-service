@@ -43,8 +43,15 @@ public class LeadServiceImpl implements LeadService {
 
     @Override
     public void cancelLead(String id) {
-        Optional<Lead> lead = leadRepository.findById(id);
-        lead.get().cancel();
-        leadRepository.save(lead.get());
+        Lead lead = leadRepository.findById(id).get();
+        lead.cancel();
+        leadRepository.save(lead);
+    }
+
+    @Override
+    public void convertLead(String id) {
+        Lead lead = leadRepository.findById(id).get();
+        lead.convert();
+        leadRepository.save(lead);
     }
 }
