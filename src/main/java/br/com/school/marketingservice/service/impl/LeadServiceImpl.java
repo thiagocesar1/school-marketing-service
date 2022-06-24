@@ -40,4 +40,11 @@ public class LeadServiceImpl implements LeadService {
         return leadRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Lead not found!"));
     }
+
+    @Override
+    public void cancelLead(String id) {
+        Optional<Lead> lead = leadRepository.findById(id);
+        lead.get().cancel();
+        leadRepository.save(lead.get());
+    }
 }

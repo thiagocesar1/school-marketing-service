@@ -19,8 +19,13 @@ public class LeadController {
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.CREATED)
     public Lead getLead(@PathVariable String id){
         return leadService.getLead(id);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void cancel(@PathVariable String id){
+        leadService.cancelLead(id);
     }
 }
