@@ -1,7 +1,5 @@
 package br.com.school.marketingservice.kafka.consumer;
 
-import br.com.school.marketingservice.domain.entity.Lead;
-import br.com.school.marketingservice.domain.repository.LeadRepository;
 import br.com.school.marketingservice.kafka.handler.ClientLeadHandler;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,8 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class ClientConsumer {
