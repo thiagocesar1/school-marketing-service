@@ -6,6 +6,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import javax.validation.constraints.NotEmpty;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -17,9 +19,11 @@ public class Lead {
     private String id;
 
     @Field
+    @NotEmpty
     private String name;
 
     @Field
+    @NotEmpty
     private String email;
 
     @Field
