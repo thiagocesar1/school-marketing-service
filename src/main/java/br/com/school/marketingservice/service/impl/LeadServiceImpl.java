@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -68,11 +70,14 @@ public class LeadServiceImpl implements LeadService {
     }
 
     private void sendLeadMail(Lead lead){
+       Map<String, String> attributes = new HashMap<String, String>();
+       attributes.put("userName", lead.getName());
+       attributes.put("registerLink", "http://localhost:2000/register");
+
        LeadMailDTO mail = LeadMailDTO.builder()
                 .mailType(MailType.LEAD_CREATED_MAIL)
                 .mailTo(lead.getEmail())
-                .registerLink("localhost:xxxx/register")
-                .userName(lead.getName())
+                .attributes(attributes)
                 .build();
 
         logger.info("Sending lead mail to kafka.");
