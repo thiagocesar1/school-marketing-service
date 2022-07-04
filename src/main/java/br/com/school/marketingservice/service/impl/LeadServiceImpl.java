@@ -3,8 +3,12 @@ package br.com.school.marketingservice.service.impl;
 import br.com.school.marketingservice.controller.LeadController;
 import br.com.school.marketingservice.domain.entity.Lead;
 import br.com.school.marketingservice.domain.enums.LeadStatus;
+import br.com.school.marketingservice.domain.enums.MailType;
 import br.com.school.marketingservice.domain.repository.LeadRepository;
+import br.com.school.marketingservice.kafka.DTOs.LeadMailDTO;
+import br.com.school.marketingservice.kafka.producer.MailProducer;
 import br.com.school.marketingservice.service.LeadService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +25,12 @@ public class LeadServiceImpl implements LeadService {
     @Autowired
     private LeadRepository leadRepository;
 
+    @Autowired
+    private MailProducer mailProducer;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
     private final Logger logger = LoggerFactory.getLogger(LeadController.class);
 
 
@@ -33,6 +43,8 @@ public class LeadServiceImpl implements LeadService {
            lead.setStatus(LeadStatus.INTERESTED);
            leadRepository.save(lead);
         }
+
+        sendLeadMail(lead);
     }
 
     @Override
@@ -53,5 +65,17 @@ public class LeadServiceImpl implements LeadService {
         Lead lead = leadRepository.findById(id).get();
         lead.convert();
         leadRepository.save(lead);
+    }
+
+    private void sendLeadMail(Lead lead){
+       LeadMailDTO mail = LeadMailDTO.builder()
+                .mailType(MailType.LEAD_CREATED_MAIL)
+                .mailTo(lead.getEmail())
+                .registerLink("localhost:xxxx/register")
+                .userName(lead.getName())
+                .build();
+
+        logger.info("Sending lead mail to kafka.");
+        mailProducer.sendMail(mail);
     }
 }
