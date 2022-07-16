@@ -5,7 +5,7 @@ import br.com.school.marketingservice.domain.entity.Lead;
 import br.com.school.marketingservice.domain.enums.LeadStatus;
 import br.com.school.marketingservice.domain.enums.MailType;
 import br.com.school.marketingservice.domain.repository.LeadRepository;
-import br.com.school.marketingservice.kafka.DTOs.LeadMailDTO;
+import br.com.school.marketingservice.kafka.DTOs.MailDTO;
 import br.com.school.marketingservice.kafka.producer.MailProducer;
 import br.com.school.marketingservice.service.LeadService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -74,7 +74,7 @@ public class LeadServiceImpl implements LeadService {
        attributes.put("userName", lead.getName());
        attributes.put("registerLink", "http://localhost:2000/register");
 
-       LeadMailDTO mail = LeadMailDTO.builder()
+       MailDTO mail = MailDTO.builder()
                 .mailType(MailType.LEAD_CREATED_MAIL)
                 .mailTo(lead.getEmail())
                 .attributes(attributes)

@@ -1,7 +1,7 @@
 package br.com.school.marketingservice.kafka.producer;
 
 
-import br.com.school.marketingservice.kafka.DTOs.LeadMailDTO;
+import br.com.school.marketingservice.kafka.DTOs.MailDTO;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +18,7 @@ public class MailProducer {
     @Autowired
     private KafkaTemplate<String, Object> kafkaTemplate;
 
-    public void sendMail(LeadMailDTO mail){
+    public void sendMail(MailDTO mail){
         kafkaTemplate.send(topic, mail).addCallback(
                 success -> logger.info("Message send."),
                 failure -> logger.info("Message failed")

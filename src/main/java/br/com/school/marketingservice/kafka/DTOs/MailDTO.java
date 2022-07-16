@@ -8,7 +8,7 @@ import java.util.Map;
 
 @Data
 @Builder
-public class LeadMailDTO {
+public class MailDTO {
     private String mailTo;
     private Map<String, String> attributes;
     private MailType mailType;
